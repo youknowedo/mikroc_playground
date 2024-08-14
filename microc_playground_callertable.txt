@@ -1,2 +1,6 @@
 main
-	delay
+	init
+	waterfall
+		delay
+	waterfallReverse
+		delay

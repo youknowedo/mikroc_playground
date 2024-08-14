@@ -320,6 +320,7 @@ hts_bit
 ics_auto
 ics_off
 indf
+init
 int2double
 intcon
 inte
@@ -842,6 +843,8 @@ vrr_bit
 vrss
 vrss_bit
 w
+waterfall
+waterfallreverse
 wcol
 wcol_bit
 wdtcon
