@@ -4,224 +4,140 @@ _main:
 ;microc_playground.c,6 :: 		void main()
 ;microc_playground.c,8 :: 		init();
 	CALL       _init+0
-;microc_playground.c,10 :: 		while (1 == 1)
+;microc_playground.c,10 :: 		PORTC = 0b00000001;
+	MOVLW      1
+	MOVWF      PORTC+0
+;microc_playground.c,11 :: 		delay_ms(75);
+	MOVLW      195
+	MOVWF      R12+0
+	MOVLW      205
+	MOVWF      R13+0
 L_main0:
-;microc_playground.c,12 :: 		waterfall();
-	CALL       _waterfall+0
-;microc_playground.c,13 :: 		waterfallReverse();
-	CALL       _waterfallReverse+0
-;microc_playground.c,14 :: 		}
+	DECFSZ     R13+0, 1
 	GOTO       L_main0
+	DECFSZ     R12+0, 1
+	GOTO       L_main0
+;microc_playground.c,13 :: 		while (1 == 1)
+L_main1:
+;microc_playground.c,14 :: 		waterfall();
+	CALL       _waterfall+0
+	GOTO       L_main1
 ;microc_playground.c,15 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main
 
-_delay:
-
-;microc_playground.c,17 :: 		void delay(int nTime)
-;microc_playground.c,19 :: 		while (nTime != 0)
-L_delay2:
-	MOVLW      0
-	XORWF      FARG_delay_nTime+1, 0
-	BTFSS      STATUS+0, 2
-	GOTO       L__delay6
-	MOVLW      0
-	XORWF      FARG_delay_nTime+0, 0
-L__delay6:
-	BTFSC      STATUS+0, 2
-	GOTO       L_delay3
-;microc_playground.c,21 :: 		nTime = nTime - 1;
-	MOVLW      1
-	SUBWF      FARG_delay_nTime+0, 1
-	BTFSS      STATUS+0, 0
-	DECF       FARG_delay_nTime+1, 1
-;microc_playground.c,22 :: 		}
-	GOTO       L_delay2
-L_delay3:
-;microc_playground.c,23 :: 		}
-L_end_delay:
-	RETURN
-; end of _delay
-
 _init:
 
-;microc_playground.c,25 :: 		void init()
-;microc_playground.c,27 :: 		TRISA = 0b11111111;
+;microc_playground.c,17 :: 		void init()
+;microc_playground.c,19 :: 		TRISA = 0b11111111;
 	MOVLW      255
 	MOVWF      TRISA+0
-;microc_playground.c,28 :: 		TRISB = 0b00000000;
+;microc_playground.c,20 :: 		TRISB = 0b00000000;
 	CLRF       TRISB+0
-;microc_playground.c,29 :: 		TRISC = 0b00000000;
+;microc_playground.c,21 :: 		TRISC = 0b00000000;
 	CLRF       TRISC+0
-;microc_playground.c,30 :: 		osccon = 0x77;
+;microc_playground.c,22 :: 		osccon = 0x77;
 	MOVLW      119
 	MOVWF      OSCCON+0
-;microc_playground.c,31 :: 		ANSEL = 0b00000000;
+;microc_playground.c,23 :: 		ANSEL = 0b00000000;
 	CLRF       ANSEL+0
-;microc_playground.c,32 :: 		ANSELH = 0b00000000;
+;microc_playground.c,24 :: 		ANSELH = 0b00000000;
 	CLRF       ANSELH+0
-;microc_playground.c,33 :: 		}
+;microc_playground.c,25 :: 		}
 L_end_init:
 	RETURN
 ; end of _init
 
 _waterfall:
 
-;microc_playground.c,35 :: 		void waterfall()
-;microc_playground.c,37 :: 		PORTB = 0b00000001;
+;microc_playground.c,27 :: 		void waterfall()
+;microc_playground.c,29 :: 		PORTC = 0b00000001;
 	MOVLW      1
-	MOVWF      PORTB+0
-;microc_playground.c,38 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,39 :: 		PORTB = 0b00000010;
-	MOVLW      2
-	MOVWF      PORTB+0
-;microc_playground.c,40 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,41 :: 		PORTB = 0b00000100;
-	MOVLW      4
-	MOVWF      PORTB+0
-;microc_playground.c,42 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,43 :: 		PORTB = 0b00001000;
-	MOVLW      8
-	MOVWF      PORTB+0
-;microc_playground.c,44 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,45 :: 		PORTB = 0b00010000;
-	MOVLW      16
-	MOVWF      PORTB+0
-;microc_playground.c,46 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,47 :: 		PORTB = 0b00100000;
-	MOVLW      32
-	MOVWF      PORTB+0
-;microc_playground.c,48 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,49 :: 		PORTB = 0b01000000;
-	MOVLW      64
-	MOVWF      PORTB+0
-;microc_playground.c,50 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,51 :: 		PORTB = 0b10000000;
+	MOVWF      PORTC+0
+;microc_playground.c,30 :: 		i = 0;
+	CLRF       _i+0
+	CLRF       _i+1
+;microc_playground.c,31 :: 		while (i < 7)
+L_waterfall3:
 	MOVLW      128
-	MOVWF      PORTB+0
-;microc_playground.c,52 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,53 :: 		}
+	XORWF      _i+1, 0
+	MOVWF      R0+0
+	MOVLW      128
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__waterfall12
+	MOVLW      7
+	SUBWF      _i+0, 0
+L__waterfall12:
+	BTFSC      STATUS+0, 0
+	GOTO       L_waterfall4
+;microc_playground.c,33 :: 		PORTC = PORTC << 1;
+	MOVF       PORTC+0, 0
+	MOVWF      R0+0
+	RLF        R0+0, 1
+	BCF        R0+0, 0
+	MOVF       R0+0, 0
+	MOVWF      PORTC+0
+;microc_playground.c,34 :: 		delay_ms(75);
+	MOVLW      195
+	MOVWF      R12+0
+	MOVLW      205
+	MOVWF      R13+0
+L_waterfall5:
+	DECFSZ     R13+0, 1
+	GOTO       L_waterfall5
+	DECFSZ     R12+0, 1
+	GOTO       L_waterfall5
+;microc_playground.c,35 :: 		i++;
+	INCF       _i+0, 1
+	BTFSC      STATUS+0, 2
+	INCF       _i+1, 1
+;microc_playground.c,36 :: 		}
+	GOTO       L_waterfall3
+L_waterfall4:
+;microc_playground.c,38 :: 		i = 0;
+	CLRF       _i+0
+	CLRF       _i+1
+;microc_playground.c,39 :: 		while (i < 7)
+L_waterfall6:
+	MOVLW      128
+	XORWF      _i+1, 0
+	MOVWF      R0+0
+	MOVLW      128
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__waterfall13
+	MOVLW      7
+	SUBWF      _i+0, 0
+L__waterfall13:
+	BTFSC      STATUS+0, 0
+	GOTO       L_waterfall7
+;microc_playground.c,41 :: 		PORTC = PORTC >> 1;
+	MOVF       PORTC+0, 0
+	MOVWF      R0+0
+	RRF        R0+0, 1
+	BCF        R0+0, 7
+	MOVF       R0+0, 0
+	MOVWF      PORTC+0
+;microc_playground.c,42 :: 		delay_ms(75);
+	MOVLW      195
+	MOVWF      R12+0
+	MOVLW      205
+	MOVWF      R13+0
+L_waterfall8:
+	DECFSZ     R13+0, 1
+	GOTO       L_waterfall8
+	DECFSZ     R12+0, 1
+	GOTO       L_waterfall8
+;microc_playground.c,43 :: 		i++;
+	INCF       _i+0, 1
+	BTFSC      STATUS+0, 2
+	INCF       _i+1, 1
+;microc_playground.c,44 :: 		}
+	GOTO       L_waterfall6
+L_waterfall7:
+;microc_playground.c,45 :: 		}
 L_end_waterfall:
 	RETURN
 ; end of _waterfall
-
-_waterfallReverse:
-
-;microc_playground.c,54 :: 		void waterfallReverse()
-;microc_playground.c,56 :: 		PORTB = 0b10000000;
-	MOVLW      128
-	MOVWF      PORTB+0
-;microc_playground.c,57 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,58 :: 		PORTB = 0b01000000;
-	MOVLW      64
-	MOVWF      PORTB+0
-;microc_playground.c,59 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,60 :: 		PORTB = 0b00100000;
-	MOVLW      32
-	MOVWF      PORTB+0
-;microc_playground.c,61 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,62 :: 		PORTB = 0b00010000;
-	MOVLW      16
-	MOVWF      PORTB+0
-;microc_playground.c,63 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,64 :: 		PORTB = 0b00001000;
-	MOVLW      8
-	MOVWF      PORTB+0
-;microc_playground.c,65 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,66 :: 		PORTB = 0b00000100;
-	MOVLW      4
-	MOVWF      PORTB+0
-;microc_playground.c,67 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,68 :: 		PORTB = 0b00000010;
-	MOVLW      2
-	MOVWF      PORTB+0
-;microc_playground.c,69 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,70 :: 		PORTB = 0b00000001;
-	MOVLW      1
-	MOVWF      PORTB+0
-;microc_playground.c,71 :: 		delay(32767);
-	MOVLW      255
-	MOVWF      FARG_delay_nTime+0
-	MOVLW      127
-	MOVWF      FARG_delay_nTime+1
-	CALL       _delay+0
-;microc_playground.c,72 :: 		}
-L_end_waterfallReverse:
-	RETURN
-; end of _waterfallReverse

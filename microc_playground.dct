@@ -245,7 +245,6 @@ dc2b0
 dc2b0_bit
 dc2b1
 dc2b1_bit
-delay
 delay_100ms
 delay_10ms
 delay_10us
@@ -317,6 +316,7 @@ go_not_done
 go_not_done_bit
 hts
 hts_bit
+i
 ics_auto
 ics_off
 indf
@@ -844,7 +844,6 @@ vrss
 vrss_bit
 w
 waterfall
-waterfallreverse
 wcol
 wcol_bit
 wdtcon

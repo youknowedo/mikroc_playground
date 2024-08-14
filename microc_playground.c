@@ -9,8 +9,18 @@ void main()
 
     while (1 == 1)
     {
-        waterfall();
-        waterfallReverse();
+        if (PORTA.F1)
+            waterfall();
+        else
+            waterfallReverse();
+
+        if (!PORTA.F2)
+            continue;
+
+        if (PORTA.F1)
+            waterfallReverse();
+        else
+            waterfall();
     }
 }
 
