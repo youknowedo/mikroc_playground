@@ -1,5 +1,5 @@
 main
 	__CC2DW
 		____DoICP
-	init
 	knightRider
+interrupt

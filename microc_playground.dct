@@ -320,13 +320,13 @@ i
 ics_auto
 ics_off
 indf
-init
 int2double
 intcon
 inte
 inte_bit
 intedg
 intedg_bit
+interrupt
 intf
 intf_bit
 iocb
