@@ -1,6 +1,6 @@
 #line 1 "C:/Users/Deltagare/Documents/GitHub/microc_playground/microc_playground.c"
 void init();
-void waterfall();
+void knightRider();
 
 int i = 0;
 
@@ -12,7 +12,7 @@ void main()
  delay_ms(75);
 
  while (1 == 1)
- waterfall();
+ knightRider();
 }
 
 void init()
@@ -25,21 +25,16 @@ void init()
  ANSELH = 0b00000000;
 }
 
-void waterfall()
+void knightRider()
 {
  PORTC = 0b00000001;
+ PORTC.F0 = ~PORTC.F0;
  i = 0;
- while (i < 7)
+ while (i < 14)
  {
- PORTC = PORTC << 1;
- delay_ms(75);
- i++;
- }
-
- i = 0;
- while (i < 7)
- {
- PORTC = PORTC >> 1;
+ PORTC.F0 = ~PORTC.F0;
+ PORTC = i < 7 ? PORTC << 1 : PORTC >> 1;
+ PORTC.F0 = ~PORTC.F0;
  delay_ms(75);
  i++;
  }

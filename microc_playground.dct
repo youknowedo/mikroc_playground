@@ -354,6 +354,7 @@ ircf2
 ircf2_bit
 irp
 irp_bit
+knightrider
 longint2double
 longword2double
 lts
@@ -843,7 +844,6 @@ vrr_bit
 vrss
 vrss_bit
 w
-waterfall
 wcol
 wcol_bit
 wdtcon
