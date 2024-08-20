@@ -326,7 +326,6 @@ inte
 inte_bit
 intedg
 intedg_bit
-interrupt
 intf
 intf_bit
 iocb
@@ -354,7 +353,7 @@ ircf2
 ircf2_bit
 irp
 irp_bit
-knightrider
+j
 longint2double
 longword2double
 lts
@@ -418,6 +417,7 @@ not_write
 not_write_bit
 nrm3232
 nrm4032
+numbers
 oerr
 oerr_bit
 option_reg
@@ -465,6 +465,7 @@ porta
 portb
 portc
 porte
+pow
 pr2
 prsen
 prsen_bit

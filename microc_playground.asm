@@ -1,245 +1,285 @@
 
 _main:
 
-;microc_playground.c,5 :: 		void main()
-;microc_playground.c,7 :: 		TRISA = 0b11111111;
-	MOVLW      255
-	MOVWF      TRISA+0
-;microc_playground.c,8 :: 		TRISB = 0b00000000;
+;microc_playground.c,18 :: 		void main()
+;microc_playground.c,20 :: 		TRISA = 0b00000000;
+	CLRF       TRISA+0
+;microc_playground.c,21 :: 		TRISB = 0b00000000;
 	CLRF       TRISB+0
-;microc_playground.c,9 :: 		TRISC = 0b00000000;
+;microc_playground.c,22 :: 		TRISC = 0b00000000;
 	CLRF       TRISC+0
-;microc_playground.c,10 :: 		osccon = 0x77;
+;microc_playground.c,23 :: 		osccon = 0x77;
 	MOVLW      119
 	MOVWF      OSCCON+0
-;microc_playground.c,11 :: 		ANSEL = 0b00000000;
+;microc_playground.c,24 :: 		ANSEL = 0b00000000;
 	CLRF       ANSEL+0
-;microc_playground.c,12 :: 		ANSELH = 0b00000000;
+;microc_playground.c,25 :: 		ANSELH = 0b00000000;
 	CLRF       ANSELH+0
-;microc_playground.c,14 :: 		INTCON.GIE = 1;
+;microc_playground.c,27 :: 		INTCON.GIE = 1;
 	BSF        INTCON+0, 7
-;microc_playground.c,15 :: 		INTCON.INTE = 1;
-	BSF        INTCON+0, 4
-;microc_playground.c,16 :: 		intcon.INTF=0;
-	BCF        INTCON+0, 1
-;microc_playground.c,18 :: 		PORTC = 0b00000001;
-	MOVLW      1
-	MOVWF      PORTC+0
-;microc_playground.c,19 :: 		delay_ms(75);
-	MOVLW      195
-	MOVWF      R12+0
-	MOVLW      205
-	MOVWF      R13+0
+;microc_playground.c,28 :: 		INTCON.TMR0IE = 1;
+	BSF        INTCON+0, 5
+;microc_playground.c,29 :: 		INTCON.TMR0IF = 0;
+	BCF        INTCON+0, 2
+;microc_playground.c,31 :: 		OPTION_REG.T0CS = 0;
+	BCF        OPTION_REG+0, 5
+;microc_playground.c,32 :: 		OPTION_REG.PSA = 1;
+	BSF        OPTION_REG+0, 3
+;microc_playground.c,33 :: 		OPTION_REG.T0SE = 0;
+	BCF        OPTION_REG+0, 4
+;microc_playground.c,34 :: 		OPTION_REG.PS2 = 0;
+	BCF        OPTION_REG+0, 2
+;microc_playground.c,35 :: 		OPTION_REG.PS1 = 0;
+	BCF        OPTION_REG+0, 1
+;microc_playground.c,36 :: 		OPTION_REG.PS0 = 0;
+	BCF        OPTION_REG+0, 0
+;microc_playground.c,38 :: 		for (i = 1000; i > 0; i--)
+	MOVLW      232
+	MOVWF      _i+0
+	MOVLW      3
+	MOVWF      _i+1
 L_main0:
-	DECFSZ     R13+0, 1
-	GOTO       L_main0
-	DECFSZ     R12+0, 1
-	GOTO       L_main0
-;microc_playground.c,21 :: 		while (1 == 1)
-L_main1:
-;microc_playground.c,22 :: 		knightRider();
-	CALL       _knightRider+0
+	MOVLW      128
+	MOVWF      R0+0
+	MOVLW      128
+	XORWF      _i+1, 0
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__main18
+	MOVF       _i+0, 0
+	SUBLW      0
+L__main18:
+	BTFSC      STATUS+0, 0
 	GOTO       L_main1
-;microc_playground.c,23 :: 		}
+;microc_playground.c,40 :: 		for (j = 0; j < 4; j++)
+	CLRF       _j+0
+	CLRF       _j+1
+L_main3:
+	MOVLW      128
+	XORWF      _j+1, 0
+	MOVWF      R0+0
+	MOVLW      128
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__main19
+	MOVLW      4
+	SUBWF      _j+0, 0
+L__main19:
+	BTFSC      STATUS+0, 0
+	GOTO       L_main4
+;microc_playground.c,42 :: 		PORTB = numbers[(i / pow(10, j)) % 10];
+	MOVLW      10
+	MOVWF      FARG_pow_x+0
+	MOVLW      0
+	MOVWF      FARG_pow_x+1
+	MOVF       _j+0, 0
+	MOVWF      FARG_pow_n+0
+	MOVF       _j+1, 0
+	MOVWF      FARG_pow_n+1
+	CALL       _pow+0
+	MOVF       R0+0, 0
+	MOVWF      R4+0
+	MOVF       R0+1, 0
+	MOVWF      R4+1
+	MOVF       _i+0, 0
+	MOVWF      R0+0
+	MOVF       _i+1, 0
+	MOVWF      R0+1
+	CALL       _Div_16x16_S+0
+	MOVLW      10
+	MOVWF      R4+0
+	MOVLW      0
+	MOVWF      R4+1
+	CALL       _Div_16x16_S+0
+	MOVF       R8+0, 0
+	MOVWF      R0+0
+	MOVF       R8+1, 0
+	MOVWF      R0+1
+	MOVF       R0+0, 0
+	MOVWF      R2+0
+	MOVF       R0+1, 0
+	MOVWF      R2+1
+	RLF        R2+0, 1
+	RLF        R2+1, 1
+	BCF        R2+0, 0
+	MOVF       R2+0, 0
+	ADDLW      _numbers+0
+	MOVWF      FSR
+	MOVF       INDF+0, 0
+	MOVWF      PORTB+0
+;microc_playground.c,43 :: 		if (j == 2)
+	MOVLW      0
+	XORWF      _j+1, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__main20
+	MOVLW      2
+	XORWF      _j+0, 0
+L__main20:
+	BTFSS      STATUS+0, 2
+	GOTO       L_main6
+;microc_playground.c,44 :: 		PORTB.F0 = 1;
+	BSF        PORTB+0, 0
+L_main6:
+;microc_playground.c,45 :: 		PORTA = 0b00001000 >> j;
+	MOVF       _j+0, 0
+	MOVWF      R1+0
+	MOVLW      8
+	MOVWF      R0+0
+	MOVF       R1+0, 0
+L__main21:
+	BTFSC      STATUS+0, 2
+	GOTO       L__main22
+	RRF        R0+0, 1
+	BCF        R0+0, 7
+	BTFSC      R0+0, 6
+	BSF        R0+0, 7
+	ADDLW      255
+	GOTO       L__main21
+L__main22:
+	MOVF       R0+0, 0
+	MOVWF      PORTA+0
+;microc_playground.c,46 :: 		delay_ms(2);
+	MOVLW      6
+	MOVWF      R12+0
+	MOVLW      48
+	MOVWF      R13+0
+L_main7:
+	DECFSZ     R13+0, 1
+	GOTO       L_main7
+	DECFSZ     R12+0, 1
+	GOTO       L_main7
+	NOP
+;microc_playground.c,40 :: 		for (j = 0; j < 4; j++)
+	INCF       _j+0, 1
+	BTFSC      STATUS+0, 2
+	INCF       _j+1, 1
+;microc_playground.c,47 :: 		}
+	GOTO       L_main3
+L_main4:
+;microc_playground.c,38 :: 		for (i = 1000; i > 0; i--)
+	MOVLW      1
+	SUBWF      _i+0, 1
+	BTFSS      STATUS+0, 0
+	DECF       _i+1, 1
+;microc_playground.c,48 :: 		}
+	GOTO       L_main0
+L_main1:
+;microc_playground.c,50 :: 		while (1)
+L_main8:
+;microc_playground.c,52 :: 		for (j = 0; j < 4; j++)
+	CLRF       _j+0
+	CLRF       _j+1
+L_main10:
+	MOVLW      128
+	XORWF      _j+1, 0
+	MOVWF      R0+0
+	MOVLW      128
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__main23
+	MOVLW      4
+	SUBWF      _j+0, 0
+L__main23:
+	BTFSC      STATUS+0, 0
+	GOTO       L_main11
+;microc_playground.c,54 :: 		PORTB = ~PORTA;
+	COMF       PORTA+0, 0
+	MOVWF      PORTB+0
+;microc_playground.c,55 :: 		PORTA = 0b00001000 >> j;
+	MOVF       _j+0, 0
+	MOVWF      R1+0
+	MOVLW      8
+	MOVWF      R0+0
+	MOVF       R1+0, 0
+L__main24:
+	BTFSC      STATUS+0, 2
+	GOTO       L__main25
+	RRF        R0+0, 1
+	BCF        R0+0, 7
+	BTFSC      R0+0, 6
+	BSF        R0+0, 7
+	ADDLW      255
+	GOTO       L__main24
+L__main25:
+	MOVF       R0+0, 0
+	MOVWF      PORTA+0
+;microc_playground.c,56 :: 		delay_ms(2);
+	MOVLW      6
+	MOVWF      R12+0
+	MOVLW      48
+	MOVWF      R13+0
+L_main13:
+	DECFSZ     R13+0, 1
+	GOTO       L_main13
+	DECFSZ     R12+0, 1
+	GOTO       L_main13
+	NOP
+;microc_playground.c,52 :: 		for (j = 0; j < 4; j++)
+	INCF       _j+0, 1
+	BTFSC      STATUS+0, 2
+	INCF       _j+1, 1
+;microc_playground.c,57 :: 		}
+	GOTO       L_main10
+L_main11:
+;microc_playground.c,58 :: 		}
+	GOTO       L_main8
+;microc_playground.c,59 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main
 
-_knightRider:
+_pow:
 
-;microc_playground.c,25 :: 		void knightRider()
-;microc_playground.c,27 :: 		PORTC = 0b00000001;
+;microc_playground.c,61 :: 		int pow(int x, int n)
+;microc_playground.c,64 :: 		int number = 1;
 	MOVLW      1
-	MOVWF      PORTC+0
-;microc_playground.c,28 :: 		PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
-	BTFSS      PORTA+0, 0
-	GOTO       L_knightRider3
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider17
-	BSF        ?FLOC___knightRiderT10+0, BitPos(?FLOC___knightRiderT10+0)
-	GOTO       L__knightRider18
-L__knightRider17:
-	BCF        ?FLOC___knightRiderT10+0, BitPos(?FLOC___knightRiderT10+0)
-L__knightRider18:
-	GOTO       L_knightRider4
-L_knightRider3:
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider19
-	BCF        ?FLOC___knightRiderT10+0, BitPos(?FLOC___knightRiderT10+0)
-	GOTO       L__knightRider20
-L__knightRider19:
-	BSF        ?FLOC___knightRiderT10+0, BitPos(?FLOC___knightRiderT10+0)
-L__knightRider20:
-L_knightRider4:
-	BTFSC      ?FLOC___knightRiderT10+0, BitPos(?FLOC___knightRiderT10+0)
-	GOTO       L__knightRider21
-	BCF        PORTC+0, 0
-	GOTO       L__knightRider22
-L__knightRider21:
-	BSF        PORTC+0, 0
-L__knightRider22:
-;microc_playground.c,29 :: 		i = 0;
-	CLRF       _i+0
-	CLRF       _i+1
-;microc_playground.c,30 :: 		while (i < 14)
-L_knightRider5:
-	MOVLW      128
-	XORWF      _i+1, 0
-	MOVWF      R0+0
-	MOVLW      128
-	SUBWF      R0+0, 0
-	BTFSS      STATUS+0, 2
-	GOTO       L__knightRider23
-	MOVLW      14
-	SUBWF      _i+0, 0
-L__knightRider23:
-	BTFSC      STATUS+0, 0
-	GOTO       L_knightRider6
-;microc_playground.c,32 :: 		PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
-	BTFSS      PORTA+0, 0
-	GOTO       L_knightRider7
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider24
-	BSF        ?FLOC___knightRiderT18+0, BitPos(?FLOC___knightRiderT18+0)
-	GOTO       L__knightRider25
-L__knightRider24:
-	BCF        ?FLOC___knightRiderT18+0, BitPos(?FLOC___knightRiderT18+0)
-L__knightRider25:
-	GOTO       L_knightRider8
-L_knightRider7:
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider26
-	BCF        ?FLOC___knightRiderT18+0, BitPos(?FLOC___knightRiderT18+0)
-	GOTO       L__knightRider27
-L__knightRider26:
-	BSF        ?FLOC___knightRiderT18+0, BitPos(?FLOC___knightRiderT18+0)
-L__knightRider27:
-L_knightRider8:
-	BTFSC      ?FLOC___knightRiderT18+0, BitPos(?FLOC___knightRiderT18+0)
-	GOTO       L__knightRider28
-	BCF        PORTC+0, 0
-	GOTO       L__knightRider29
-L__knightRider28:
-	BSF        PORTC+0, 0
-L__knightRider29:
-;microc_playground.c,33 :: 		PORTC = i < 7 ? PORTC << 1 : PORTC >> 1;
-	MOVLW      128
-	XORWF      _i+1, 0
-	MOVWF      R0+0
-	MOVLW      128
-	SUBWF      R0+0, 0
-	BTFSS      STATUS+0, 2
-	GOTO       L__knightRider30
-	MOVLW      7
-	SUBWF      _i+0, 0
-L__knightRider30:
-	BTFSC      STATUS+0, 0
-	GOTO       L_knightRider9
-	MOVF       PORTC+0, 0
-	MOVWF      R1+0
-	CLRF       R1+1
-	RLF        R1+0, 1
-	RLF        R1+1, 1
-	BCF        R1+0, 0
-	GOTO       L_knightRider10
-L_knightRider9:
-	MOVF       PORTC+0, 0
-	MOVWF      R1+0
-	CLRF       R1+1
-	RRF        R1+0, 1
-	BCF        R1+0, 7
+	MOVWF      pow_number_L0+0
 	MOVLW      0
-	MOVWF      R1+1
-L_knightRider10:
-	MOVF       R1+0, 0
-	MOVWF      PORTC+0
-;microc_playground.c,34 :: 		PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
-	BTFSS      PORTA+0, 0
-	GOTO       L_knightRider11
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider31
-	BSF        ?FLOC___knightRiderT29+0, BitPos(?FLOC___knightRiderT29+0)
-	GOTO       L__knightRider32
-L__knightRider31:
-	BCF        ?FLOC___knightRiderT29+0, BitPos(?FLOC___knightRiderT29+0)
-L__knightRider32:
-	GOTO       L_knightRider12
-L_knightRider11:
-	BTFSC      PORTC+0, 0
-	GOTO       L__knightRider33
-	BCF        ?FLOC___knightRiderT29+0, BitPos(?FLOC___knightRiderT29+0)
-	GOTO       L__knightRider34
-L__knightRider33:
-	BSF        ?FLOC___knightRiderT29+0, BitPos(?FLOC___knightRiderT29+0)
-L__knightRider34:
-L_knightRider12:
-	BTFSC      ?FLOC___knightRiderT29+0, BitPos(?FLOC___knightRiderT29+0)
-	GOTO       L__knightRider35
-	BCF        PORTC+0, 0
-	GOTO       L__knightRider36
-L__knightRider35:
-	BSF        PORTC+0, 0
-L__knightRider36:
-;microc_playground.c,35 :: 		delay_ms(75);
-	MOVLW      195
-	MOVWF      R12+0
-	MOVLW      205
-	MOVWF      R13+0
-L_knightRider13:
-	DECFSZ     R13+0, 1
-	GOTO       L_knightRider13
-	DECFSZ     R12+0, 1
-	GOTO       L_knightRider13
-;microc_playground.c,36 :: 		i++;
-	INCF       _i+0, 1
+	MOVWF      pow_number_L0+1
+;microc_playground.c,66 :: 		for (i = 0; i < n; ++i)
+	CLRF       pow_i_L0+0
+	CLRF       pow_i_L0+1
+L_pow14:
+	MOVLW      128
+	XORWF      pow_i_L0+1, 0
+	MOVWF      R0+0
+	MOVLW      128
+	XORWF      FARG_pow_n+1, 0
+	SUBWF      R0+0, 0
+	BTFSS      STATUS+0, 2
+	GOTO       L__pow27
+	MOVF       FARG_pow_n+0, 0
+	SUBWF      pow_i_L0+0, 0
+L__pow27:
+	BTFSC      STATUS+0, 0
+	GOTO       L_pow15
+;microc_playground.c,67 :: 		number *= x;
+	MOVF       pow_number_L0+0, 0
+	MOVWF      R0+0
+	MOVF       pow_number_L0+1, 0
+	MOVWF      R0+1
+	MOVF       FARG_pow_x+0, 0
+	MOVWF      R4+0
+	MOVF       FARG_pow_x+1, 0
+	MOVWF      R4+1
+	CALL       _Mul_16X16_U+0
+	MOVF       R0+0, 0
+	MOVWF      pow_number_L0+0
+	MOVF       R0+1, 0
+	MOVWF      pow_number_L0+1
+;microc_playground.c,66 :: 		for (i = 0; i < n; ++i)
+	INCF       pow_i_L0+0, 1
 	BTFSC      STATUS+0, 2
-	INCF       _i+1, 1
-;microc_playground.c,37 :: 		}
-	GOTO       L_knightRider5
-L_knightRider6:
-;microc_playground.c,38 :: 		}
-L_end_knightRider:
+	INCF       pow_i_L0+1, 1
+;microc_playground.c,67 :: 		number *= x;
+	GOTO       L_pow14
+L_pow15:
+;microc_playground.c,69 :: 		return (number);
+	MOVF       pow_number_L0+0, 0
+	MOVWF      R0+0
+	MOVF       pow_number_L0+1, 0
+	MOVWF      R0+1
+;microc_playground.c,70 :: 		}
+L_end_pow:
 	RETURN
-; end of _knightRider
-
-_interrupt:
-	MOVWF      R15+0
-	SWAPF      STATUS+0, 0
-	CLRF       STATUS+0
-	MOVWF      ___saveSTATUS+0
-	MOVF       PCLATH+0, 0
-	MOVWF      ___savePCLATH+0
-	CLRF       PCLATH+0
-
-;microc_playground.c,40 :: 		void interrupt()
-;microc_playground.c,44 :: 		portc = 0xff;
-	MOVLW      255
-	MOVWF      PORTC+0
-;microc_playground.c,45 :: 		delay_ms(100);
-	MOVLW      2
-	MOVWF      R11+0
-	MOVLW      4
-	MOVWF      R12+0
-	MOVLW      186
-	MOVWF      R13+0
-L_interrupt14:
-	DECFSZ     R13+0, 1
-	GOTO       L_interrupt14
-	DECFSZ     R12+0, 1
-	GOTO       L_interrupt14
-	DECFSZ     R11+0, 1
-	GOTO       L_interrupt14
-	NOP
-;microc_playground.c,46 :: 		INTCON.INTF = 0;
-	BCF        INTCON+0, 1
-;microc_playground.c,47 :: 		}
-L_end_interrupt:
-L__interrupt38:
-	MOVF       ___savePCLATH+0, 0
-	MOVWF      PCLATH+0
-	SWAPF      ___saveSTATUS+0, 0
-	MOVWF      STATUS+0
-	SWAPF      R15+0, 1
-	SWAPF      R15+0, 0
-	RETFIE
-; end of _interrupt
+; end of _pow

@@ -1,11 +1,24 @@
 #line 1 "C:/Users/Deltagare/Documents/GitHub/microc_playground/microc_playground.c"
-void knightRider();
+int pow(int x, int n);
 
 int i = 0;
+int j;
+int numbers[10] = {
+ 0b11111100,
+ 0b01100000,
+ 0b11011010,
+ 0b11110010,
+ 0b01100110,
+ 0b10110110,
+ 0b10111110,
+ 0b11100000,
+ 0b11111110,
+ 0b11110110
+};
 
 void main()
 {
- TRISA = 0b11111111;
+ TRISA = 0b00000000;
  TRISB = 0b00000000;
  TRISC = 0b00000000;
  osccon = 0x77;
@@ -13,36 +26,46 @@ void main()
  ANSELH = 0b00000000;
 
  INTCON.GIE = 1;
- INTCON.INTE = 1;
- intcon.INTF=0;
+ INTCON.TMR0IE = 1;
+ INTCON.TMR0IF = 0;
 
- PORTC = 0b00000001;
- delay_ms(75);
+ OPTION_REG.T0CS = 0;
+ OPTION_REG.PSA = 1;
+ OPTION_REG.T0SE = 0;
+ OPTION_REG.PS2 = 0;
+ OPTION_REG.PS1 = 0;
+ OPTION_REG.PS0 = 0;
 
- while (1 == 1)
- knightRider();
-}
-
-void knightRider()
-{
- PORTC = 0b00000001;
- PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
- i = 0;
- while (i < 14)
+ for (i = 1000; i > 0; i--)
  {
- PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
- PORTC = i < 7 ? PORTC << 1 : PORTC >> 1;
- PORTC.F0 = PORTA.F0 ? ~PORTC.F0 : PORTC.F0;
- delay_ms(75);
- i++;
+ for (j = 0; j < 4; j++)
+ {
+ PORTB = numbers[(i / pow(10, j)) % 10];
+ if (j == 2)
+ PORTB.F0 = 1;
+ PORTA = 0b00001000 >> j;
+ delay_ms(2);
+ }
+ }
+
+ while (1)
+ {
+ for (j = 0; j < 4; j++)
+ {
+ PORTB = ~PORTA;
+ PORTA = 0b00001000 >> j;
+ delay_ms(2);
+ }
  }
 }
 
-void interrupt()
+int pow(int x, int n)
 {
+ int i;
+ int number = 1;
 
+ for (i = 0; i < n; ++i)
+ number *= x;
 
- portc = 0xff;
- delay_ms(100);
- INTCON.INTF = 0;
+ return (number);
 }
