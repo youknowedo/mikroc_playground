@@ -1,7 +1,15 @@
 main
 	__CC2DW
 		____DoICP
+	Sound_Init
+	Sound_Play
+		Get_Fosc_kHz
+		Mul_32x32_U
+		Div_32x32_U
+		Div_16X16_U
+		Delay_Cyc
 	pow
 		Mul_16X16_U
 	Div_16x16_S
 		Div_16x16_S_L
+interrupt

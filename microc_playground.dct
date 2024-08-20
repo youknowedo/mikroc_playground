@@ -259,6 +259,7 @@ delay_5ms
 delay_80us
 delay_8ms
 delay_cyc
+digit
 div_16x16_s
 div_16x16_s_l
 div_16x16_u
@@ -326,6 +327,7 @@ inte
 inte_bit
 intedg
 intedg_bit
+interrupt
 intf
 intf_bit
 iocb
@@ -353,7 +355,6 @@ ircf2
 ircf2_bit
 irp
 irp_bit
-j
 longint2double
 longword2double
 lts
@@ -363,6 +364,7 @@ mc1out
 mc1out_bit
 mc2out
 mc2out_bit
+minutes
 msk
 msk0
 msk0_bit
@@ -607,6 +609,7 @@ sckp_bit
 scs
 scs_bit
 sdiv3232l
+seconds
 sen
 sen_bit
 sendb
@@ -617,6 +620,8 @@ setfun32
 setiov3224
 smp
 smp_bit
+sound_init
+sound_play
 spbrg
 spbrgh
 spen
